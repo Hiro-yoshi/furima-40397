@@ -1,24 +1,60 @@
-# README
+# テーブル設計
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+## users テーブル
 
-Things you may want to cover:
+| Column                | Type   | Options     |
+| --------------------- | ------ | ----------- |
+| nickname              | string | null: false, unique: true |
+| email                 | string | null: false, unique: true |
+| password              | string | null: false |
+| password_confirmation | string | null: false |
+| name                  | string | null: false |
+| name_kana             | string | null: false |
+| birth_date            | date   | null: false |
 
-* Ruby version
+### Association
+- has_many :items
+- has_many :buyers
 
-* System dependencies
 
-* Configuration
+## items テーブル
 
-* Database creation
+| Column           | Type    | Options     |
+| ---------------- | ------- | ----------- |
+| name             | string  | null: false |
+| description      | string  | null: false |
+| category         | string  | null: false |
+| condition        | string  | null: false |
+| shipping_fee     | string  | null: false |
+| shipping_area    | string  | null: false |
+| delivery_time    | string  | null: false |
+| price            | integer | null: false |
 
-* Database initialization
+### Association
+- has_many :buyers
+- belongs_to :user
 
-* How to run the test suite
 
-* Services (job queues, cache servers, search engines, etc.)
+## buyers テーブル
 
-* Deployment instructions
+| Column           | Type       | Options                        |
+| ---------------- | ---------- | ------------------------------ |
+| user_id          | references | null: false, foreign_key: true |
+| item_id          | references | null: false, foreign_key: true |
 
-* ...
+### Association
+- belongs_to :item
+- belongs_to :user
+- has_one :shipping_address
+
+
+## shipping_adresses テーブル
+
+| Column           | Type       | Options                        |
+| ---------------- | ---------- | ------------------------------ |
+| address          | string     | null: false                    |
+| phone_number     | string     | null: false                    |
+| buyer_id         | references | null: false, foreign_key: true |
+
+### Association
+- has_one :buyer
