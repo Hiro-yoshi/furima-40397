@@ -20,20 +20,20 @@
 
 ## items テーブル
 
-| Column              | Type     | Options                        |
-| ------------------- | -------- | ------------------------------ |
-| name                | string   | null: false                    |
-| description         | text     | null: false                    |
-| category_id         | integer  | null: false                    |
-| condition_id        | integer  | null: false                    |
-| shipping_fee_id     | integer  | null: false                    |
-| shipping_area_id    | integer  | null: false                    |
-| delivery_time_id    | integer  | null: false                    |
-| price               | integer  | null: false                    |
-| user_id             | integer  | null: false, foreign_key: true |
+| Column           | Type       | Options                        |
+| ---------------- | ---------- | ------------------------------ |
+| name             | string     | null: false                    |
+| description      | text       | null: false                    |
+| category_id      | integer    | null: false                    |
+| condition_id     | integer    | null: false                    |
+| shipping_fee_id  | integer    | null: false                    |
+| shipping_area_id | integer    | null: false                    |
+| delivery_time_id | integer    | null: false                    |
+| price            | integer    | null: false                    |
+| user             | references | null: false, foreign_key: true |
 
 ### Association
-- has_one :buyers
+- has_one :buyer
 - belongs_to :user
 
 
@@ -54,13 +54,13 @@
 
 | Column         | Type       | Options                        |
 | -------------- | ---------- | ------------------------------ |
-| post_code      | integer    | null: false                    |
+| post_code      | string     | null: false                    |
 | prefecture_id  | integer    | null: false                    |
 | municipality   | string     | null: false                    |
 | street_address | integer    | null: false                    |
 | building       | string     |                                |
-| phone_number   | integer    | null: false                    |
+| phone_number   | string     | null: false                    |
 | buyer          | references | null: false, foreign_key: true |
 
 ### Association
-- has_one :buyer
+- belongs_to :buyer
