@@ -2,6 +2,7 @@ class ItemsController < ApplicationController
   before_action :authenticate_user!, only: [:new, :create, :edit, :update, :destroy]
   before_action :set_item, only: [:show, :edit, :update, :destroy]
   before_action :check_item_owner, only: [:edit, :update, :destroy]
+  before_action :check_item_sold, only: [:edit, :update]
 
   def index
     @items = Item.all
@@ -55,4 +56,11 @@ class ItemsController < ApplicationController
       redirect_to root_path
     end
   end
+
+  def check_item_sold
+    if @item.buyer.present?
+      redirect_to root_path
+    end
+  end
+  
 end
