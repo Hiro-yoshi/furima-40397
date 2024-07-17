@@ -67,6 +67,12 @@ RSpec.describe AddressBuyer, type: :model do
       expect(@address_buyer.errors.full_messages).to include("Phone number is invalid. Input only number")
     end
 
+    it "電話番号に半角数字以外が含まれている場合は購入できないこと" do
+      @address_buyer.phone_number = '090-1234-5678'
+      @address_buyer.valid?
+      expect(@address_buyer.errors.full_messages).to include("Phone number is invalid. Input only number")
+    end
+
     it "tokenが空では購入できないこと" do
       @address_buyer.token = ""
       @address_buyer.valid?
