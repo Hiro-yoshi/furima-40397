@@ -1,7 +1,6 @@
 class ShippingAddressesController < ApplicationController
   before_action :authenticate_user!, only: [:index, :create]
   before_action :set_item, only: [:index, :create]
-  before_action :check_item_owner, only: [:index, :create]
   before_action :check_item_sold, only: [:index, :create]
   
   def index
@@ -16,6 +15,7 @@ class ShippingAddressesController < ApplicationController
       @address_buyer.save
       return redirect_to root_path
     else
+      gon.public_key = ENV["PAYJP_PUBLIC_KEY"]
       render :index, status: :unprocessable_entity
     end
   end
@@ -24,12 +24,6 @@ class ShippingAddressesController < ApplicationController
   
   def set_item
     @item = Item.find(params[:item_id])
-  end
-  
-  def check_item_owner
-    unless @item.user != current_user
-      redirect_to root_path
-    end
   end
   
   def address_buyer_params
@@ -46,7 +40,7 @@ class ShippingAddressesController < ApplicationController
   end
 
   def check_item_sold
-    if @item.buyer.present? && @item.user != current_user
+    if @item.buyer.present? || @item.user == current_user
       redirect_to root_path
     end
   end
